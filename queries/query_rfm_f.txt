@@ -1,0 +1,10 @@
+select {top} c.Id
+    ,Count(ca.Id)
+
+    from directcrm.Customers c
+        join directcrm.CustomerActions ca on c.Id = ca.CustomerId
+        join ({good_orders}) GoodOrders on ca.Id = GoodOrders.FirstCustomerActionId
+
+    group by c.Id
+
+    order by c.Id

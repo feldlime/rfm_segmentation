@@ -1,0 +1,13 @@
+select {top} c.Id
+    ,Sum(roh.EffectivePayedAmount)
+
+    from directcrm.Customers c
+        join directcrm.CustomerActions ca on c.Id = ca.CustomerId
+        join ({good_orders}) GoodOrders on ca.Id = GoodOrders.FirstCustomerActionId
+		join directcrm.RetailOrderHistory roh on GoodOrders.Id = roh.OrderId
+
+	where roh.IsCurrentOtherwiseNull = 1
+
+    group by c.Id
+
+    order by c.Id
